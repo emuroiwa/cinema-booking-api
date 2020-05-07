@@ -15,7 +15,14 @@ class CreateShowingsTable extends Migration
     {
         Schema::create('showings', function (Blueprint $table) {
             $table->id();
+            $table->timestamp('show_time')->nullable();
+            $table->unsignedBigInteger('movie_id');
             $table->timestamps();
+            $table->foreign('movie_id')
+                ->references('id')
+                ->on('movies')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
