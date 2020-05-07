@@ -1,19 +1,3 @@
-Create a simple cinema booking RESTful api.
-The api should allow an operator to book a seat for a specific movie showing, and view seat allocation. To keep the task small and the system simple the cinema only has one screen with 10 seats. The system should have the following actions:
-API actions:
-Create/update/delete customers (email address and customer name)
-Create/update/delete movies (movie name)
-Create/update/delete showings (show time)
-Create/update/delete bookings (booking for showing tied to a customer, with multiple seat allocations)
-The task should meet the following criteria:
-Written in Laravel
-Use migrations and seed data
-Ensure full validation and sanitisation
-Solid principles and design patterns
-100% Test Coverage
-The completed project can be hosted on Github, or emailed in a zip.
-Good luck!
-
 # Cinema Booking API
 
 A tutorial on how it was made is avaiable here
