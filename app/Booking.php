@@ -7,7 +7,6 @@ use App\Customer;
 
 class Booking extends Model
 {
-    //
 
     /**
      * Eloquent relationship pivot table
