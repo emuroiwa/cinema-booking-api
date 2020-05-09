@@ -22,10 +22,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::apiResource('movie', 'API\MovieController');
     Route::apiResource('showing', 'API\ShowingController');
     Route::apiResource('booking', 'API\BookingController');
-    Route::delete(
-        'booking/{customer_id}/{showing_id}',
-        'API\BookingController@deleteBooking'
-    );
+    Route::delete('booking', 'API\BookingController@deleteBooking');
 });
 
 Route::fallback(function () {
