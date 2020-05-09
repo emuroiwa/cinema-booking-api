@@ -10,6 +10,7 @@ Cinema Booking API app made with Laravel 7 and Mysql DB
 -   PHP 7 >=
 -   Composer
 -   Mysql
+-   NodeJS
 
 # Setup
 
@@ -37,6 +38,18 @@ or:
 
 ```
 composer update
+```
+
+And:
+
+```
+npm install
+```
+
+and:
+
+```
+npm run watch || npm run serve
 ```
 
 # Configurations

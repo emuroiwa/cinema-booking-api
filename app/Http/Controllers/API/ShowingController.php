@@ -17,7 +17,7 @@ class ShowingController extends Controller
     public function store(Request $request)
     {
         //validate
-        request()->validate([
+        $this->validate($request, [
             'show_time' => 'required',
             'movie_id' => 'required|numeric',
         ]);
@@ -31,7 +31,6 @@ class ShowingController extends Controller
             'success' => true,
             'message' => 'Movie Showing Details Added'
         ], 201);
-
     }
 
     /**
@@ -44,9 +43,10 @@ class ShowingController extends Controller
     public function update(Request $request, $id)
     {
         //validate
-        request()->validate([
-            'show_time' => 'required'
-        ]);
+        // 'show_time' => 'required|date_format:Y-m-d H:i:s'
+        // $this->validate($request, [
+        //     'show_time' => 'required'
+        // ]);
 
         $showing = Showing::findOrFail($id);
         $showing->update($request->all());

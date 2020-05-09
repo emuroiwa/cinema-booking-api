@@ -25,6 +25,21 @@ class BookingService
         $customers = Customer::find($customer_id);
         $showings = Showing::find($showing_id);
 
+        if (!Customer::find($customer_id)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sorry, customer with id ' . $customer_id
+                . ' cannot be found'
+            ], 400);
+        }
+        if (!Showing::find($showing_id)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sorry, Showing with id ' . $showing_id
+                . ' cannot be found'
+            ], 400);
+        }
+
         $customers->showings()->attach($showings, [
                                 'seats'=> $seats
                                 ]);
@@ -44,6 +59,14 @@ class BookingService
     public function deleteBooking($customer_id, $showing_id)
     {
         $customers = Customer::find($customer_id);
+
+        if (!$customers) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sorry, customer with id ' . $customer_id
+                . ' cannot be found'
+            ], 400);
+        }
 
         $customers->showings()->detach($showing_id);
 

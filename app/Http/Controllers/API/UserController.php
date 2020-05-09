@@ -16,26 +16,25 @@ class UserController extends Controller
      */
     public function register(Request $request)
     {
-      //validate incoming request
-      $this->validate($request, [
+        //validate incoming request
+        $this->validate($request, [
         'name' => 'required|string',
         'email' => 'required|email|unique:users',
-        'password' => 'required|confirmed',
+        'password' => 'required',
     ]);
-    try {
-        $user = User::create([
+        try {
+            $user = User::create([
           'name' => $request->name,
           'email' => $request->email,
           'password' => bcrypt($request->password),
         ]);
 
-        $token =  auth('api')->login($user);
-        return $this->respondWithToken($token);
-
-      } catch (\Exception $e) {
-        //return error message
-        return response()->json(['message' => 'User Registration Failed!'], 409);
-      }
+            $token =  auth('api')->login($user);
+            return $this->respondWithToken($token);
+        } catch (\Exception $e) {
+            //return error message
+            return response()->json(['message' => 'User Registration Failed!'], 409);
+        }
     }
 
     /**
@@ -45,20 +44,20 @@ class UserController extends Controller
      */
     public function login(Request $request)
     {
-      $credentials = $request->only(['email', 'password']);
-      $token =  auth('api')->attempt($credentials);
+        $credentials = $request->only(['email', 'password']);
+        $token =  auth('api')->attempt($credentials);
 
-      if (!$token) {
-        return response()->json(['error' => 'Unauthorized'], 401);
-      }
+        if (!$token) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
 
-      return $this->respondWithToken($token);
+        return $this->respondWithToken($token);
     }
-     /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+    /**
+    * Get the authenticated User.
+    *
+    * @return \Illuminate\Http\JsonResponse
+    */
     public function me()
     {
         return response()->json(auth('api')->user());
@@ -95,7 +94,7 @@ class UserController extends Controller
      */
     protected function respondWithToken($token)
     {
-      return response()->json([
+        return response()->json([
         'access_token' => $token,
         'token_type' => 'bearer',
         'expires_in' => auth('api')->factory()->getTTL() * 60

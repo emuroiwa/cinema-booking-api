@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\MovieStoreRequest;
+use App\Http\Requests\MovieUpdateRequest;
 use App\Movie;
 
 class MovieController extends Controller
@@ -14,22 +15,27 @@ class MovieController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MovieStoreRequest $request)
     {
-        //validate
-        request()->validate([
-            'movie_name' => 'required|unique:movies',
-        ]);
+        //dd($request);
+        try {
+            //validate
+            $validated = $request->validated();
 
-        Movie::create([
-            'movie_name' => $request['movie_name'],
-        ]);
+            Movie::create([
+                'movie_name' => $request['movie_name'],
+            ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Movie Details Added'
-        ], 201);
-
+            return response()->json([
+                'success' => true,
+                'message' => 'Movie Details Added'
+            ], 201);
+        } catch (\Exception $ex) {
+            return response()->json([
+                'success' => false,
+                'message' => $ex
+            ], $ex->status);
+        }
     }
 
     /**
@@ -39,20 +45,25 @@ class MovieController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(MovieUpdateRequest $request, $id)
     {
-        //validate
-        request()->validate([
-            'movie_name' => 'required',
-        ]);
+        try {
+            //validate
+            $validated = $request->validated();
 
-        $movie = Movie::findOrFail($id);
-        $movie->update($request->all());
+            $movie = Movie::findOrFail($id);
+            $movie->update($request->all());
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Movie Details Update'
-        ], 201);
+            return response()->json([
+                'success' => true,
+                'message' => 'Movie Details Update'
+            ], 204);
+        } catch (\Exception $ex) {
+            return response()->json([
+                'success' => false,
+                'message' => $ex
+        ], $ex->status);
+        }
     }
 
     /**
@@ -63,12 +74,19 @@ class MovieController extends Controller
      */
     public function destroy($id)
     {
-        $movie = Movie::findOrFail($id);
-        $movie->delete();
+        try {
+            $movie = Movie::findOrFail($id);
+            $movie->delete();
 
-        return response()->json([
+            return response()->json([
             'success' => true,
             'message' => 'Movie Details Delete'
-        ], 201);
+        ], 204);
+        } catch (\Exception $ex) {
+            return response()->json([
+                'success' => false,
+                'message' => $ex
+            ], $ex->status);
+        }
     }
 }

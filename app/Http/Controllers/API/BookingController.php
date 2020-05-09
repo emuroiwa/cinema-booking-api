@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Showing;
+use App\Customer;
 
 class BookingController extends Controller
 {
@@ -16,28 +18,28 @@ class BookingController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'book_id' => 'required|max:50',
-            'user_id' => 'required|max:50',
-            'process_type' => 'required|max:20',
+            'customer_id' => 'required|max:50',
+            'showing_id' => 'required|max:50',
+            'number_of_seats' => 'required|numeric|min:1|max:10',
         ]);
 
-        if (!User::find($request['user_id'])) {
+        if (!Customer::find($request['customer_id'])) {
             return response()->json([
                 'success' => false,
-                'message' => 'Sorry, user with id ' . $request['user_id']
+                'message' => 'Sorry, customer with id ' . $request['customer_id']
                 . ' cannot be found'
             ], 400);
         }
-        if (!Book::find($request['book_id'])) {
+        if (!Showing::find($request['showing_id'])) {
             return response()->json([
                 'success' => false,
-                'message' => 'Sorry, book with id ' . $request['book_id']
+                'message' => 'Sorry, Showing with id ' . $request['showing_id']
                 . ' cannot be found'
             ], 400);
         }
 
         $book = resolve('App\CinemaServices\BookingService');
-        return $book->checkOutBook($request['user_id'], $request['book_id']);
+        return $book->booking($request['customer_id'], $request['showing_id'], $request['number_of_seats']);
     }
 
     /**
@@ -49,7 +51,14 @@ class BookingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // $this->validate($request, [
+        //     'customer_id' => 'required|max:50',
+        //     'showing_id' => 'required|max:50',
+        //     'number_of_seats' => 'required|numeric|min:1|max:10',
+        // ]);
+        // dd($request);
+        $book = resolve('App\CinemaServices\BookingService');
+        return $book->booking($id, $request['showing_id'], $request['number_of_seats']);
     }
 
     /**
@@ -58,8 +67,24 @@ class BookingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function deleteBooking($customer_id, $showing_id)
     {
-        //
+        if (!Customer::find($customer_id)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sorry, customer with id ' . $customer_id
+                . ' cannot be found'
+            ], 400);
+        }
+        if (!Showing::find($showing_id)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sorry, Showing with id ' . $showing_id
+                . ' cannot be found'
+            ], 400);
+        }
+
+        $book = resolve('App\CinemaServices\BookingService');
+        return $book->deleteBooking($customer_id, $showing_id);
     }
 }
