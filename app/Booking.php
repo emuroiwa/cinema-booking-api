@@ -9,10 +9,10 @@ class Booking extends Model
 {
 
     /**
-     * Eloquent relationship pivot table
+     * Eloquent relationship pivot table    this model is not required
      * @return Relationship
      */
-    public function books()
+    public function customers()
     {
       return $this->belongsToMany(Customer::class)
             ->withTimestamps()

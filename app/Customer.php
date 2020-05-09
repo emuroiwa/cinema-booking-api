@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Showing;
 
 class Customer extends Model
 {
@@ -15,4 +16,10 @@ class Customer extends Model
         'name', 'email'
     ];
 
+    public function showings()
+    {
+      return $this->belongsToMany(Showing::class)
+            ->withTimestamps()
+            ->withPivot('seats');
+    }
 }
