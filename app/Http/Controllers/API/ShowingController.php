@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\ShowingStoreRequest;
 use App\Showing;
 
 class ShowingController extends Controller
@@ -11,50 +11,64 @@ class ShowingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\ShowingStoreRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ShowingStoreRequest $request)
     {
-        //validate
-        $this->validate($request, [
-            'show_time' => 'required',
-            'movie_id' => 'required|numeric',
-        ]);
+        try {
+            //validate
+            $validated = $request->validated();
 
-        Showing::create([
-            'show_time' => $request['show_time'],
-            'movie_id' => $request['movie_id'],
-        ]);
+            Showing::create([
+                'show_time' => $request['show_time'],
+                'movie_id' => $request['movie_id'],
+            ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Movie Showing Details Added'
-        ], 201);
+            return response()->json([
+                'success' => true,
+                'message' => 'Showing Details Added'
+            ], 201);
+        } catch (\Exception $ex) {
+            return response()->json([
+                'success' => false,
+                'message' => $ex->getMessage()
+            ], 500);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\ShowingStoreRequest $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ShowingStoreRequest $request, $id)
     {
-        //validate
-        // 'show_time' => 'required|date_format:Y-m-d H:i:s'
-        // $this->validate($request, [
-        //     'show_time' => 'required'
-        // ]);
+        try {
+            //validate
+            $validated = $request->validated();
 
-        $showing = Showing::findOrFail($id);
-        $showing->update($request->all());
+            $showing = Showing::findOrFail($id);
+            $showing->update($request->all());
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Movie Showing Details Update'
-        ], 201);
+            return response()->json([
+                'success' => true,
+                'message' => 'Showing Details Updated'
+            ], 200);
+        } catch (\ModelNotFoundException $ex) {
+            // Showing not found
+            return response()->json([
+                'success' => false,
+                'message' => $ex->getMessage()
+            ], 422);
+        } catch (\Exception $ex) {
+            return response()->json([
+                'success' => false,
+                'message' => $ex->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -65,12 +79,25 @@ class ShowingController extends Controller
      */
     public function destroy($id)
     {
-        $showing = Showing::findOrFail($id);
-        $showing->delete();
+        try {
+            $showing = Showing::findOrFail($id);
+            $showing->delete();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Movie Showing Details Delete'
-        ], 201);
+            return response()->json([
+                'success' => true,
+                'message' => 'Movie Showing Details Delete'
+            ], 201);
+        } catch (\ModelNotFoundException $ex) {
+            // Showing not found
+            return response()->json([
+                'success' => false,
+                'message' => $ex->getMessage()
+            ], 422);
+        } catch (\Exception $ex) {
+            return response()->json([
+                'success' => false,
+                'message' => $ex->getMessage()
+            ], 500);
+        }
     }
 }
