@@ -21,6 +21,7 @@ class MovieStoreRequest extends BaseFormRequest
      */
     public function rules()
     {
+        //dd($this->segment(3));
         return [
             'movie_name' => 'required|unique:movies'
         ];
