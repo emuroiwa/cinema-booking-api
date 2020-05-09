@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class MovieStoreRequest extends BaseFormRequest
+class CustomerStoreRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,19 +22,20 @@ class MovieStoreRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'movie_name' => 'required|unique:movies'
+            'email' => 'required|email|unique:customers',
+            'name' => 'required|string|max:50'
         ];
     }
-
     /**
-     * Custom message for validation
-     *
-     * @return array
-     */
+        * Custom message for validation
+        *
+        * @return array
+        */
     public function messages()
     {
         return [
-            'movie_name.required' => 'Movie name is required!'
+            'email.required' => 'Email is required!',
+            'name.required' => 'Name is required!'
         ];
     }
 
@@ -46,7 +47,8 @@ class MovieStoreRequest extends BaseFormRequest
     public function filters()
     {
         return [
-            'movie_name' => 'trim|capitalize|escape|strip_tags'
+            'email' => 'trim|lowercase',
+            'name' => 'trim|capitalize|escape'
         ];
     }
 }

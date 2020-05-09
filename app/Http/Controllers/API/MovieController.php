@@ -16,7 +16,6 @@ class MovieController extends Controller
      */
     public function store(MovieStoreRequest $request)
     {
-        //dd($request);
         try {
             //validate
             $validated = $request->validated();
@@ -32,8 +31,8 @@ class MovieController extends Controller
         } catch (\Exception $ex) {
             return response()->json([
                 'success' => false,
-                'message' => $ex
-            ], $ex->status);
+                'message' => $ex->getMessage()
+            ], 400);
         }
     }
 
@@ -55,13 +54,19 @@ class MovieController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Movie Details Update'
+                'message' => 'Movie Details Updated'
             ], 200);
+        } catch (\ModelNotFoundException $ex) {
+            // Movie not found
+            return response()->json([
+                'success' => false,
+                'message' => $ex->getMessage()
+            ], 422);
         } catch (\Exception $ex) {
             return response()->json([
                 'success' => false,
-                'message' => $ex
-        ], $ex->status);
+                'message' => $ex->getMessage()
+            ], 500);
         }
     }
 
@@ -78,14 +83,20 @@ class MovieController extends Controller
             $movie->delete();
 
             return response()->json([
-            'success' => true,
-            'message' => 'Movie Details Delete'
-        ], 200);
+                'success' => true,
+                'message' => 'Movie Details Delete'
+            ], 200);
+        } catch (\ModelNotFoundException $ex) {
+            // Movie not found
+            return response()->json([
+                'success' => false,
+                'message' => $ex->getMessage()
+            ], 422);
         } catch (\Exception $ex) {
             return response()->json([
                 'success' => false,
-                'message' => $ex
-            ], $ex->status);
+                'message' => $ex->getMessage()
+            ], 500);
         }
     }
 }
