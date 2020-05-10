@@ -12,6 +12,7 @@ use App\Showing;
 */
 class BookingService
 {
+    const MAXSEATS = 10;
     /**
      * processes booking
      *
@@ -25,18 +26,16 @@ class BookingService
         $customers = Customer::find($customer_id);
         $showings = Showing::find($showing_id);
 
-        if (!Customer::find($customer_id)) {
+        $seatDBTotal = $customers->showings->sum('pivot.seats');
+        $seatTotal = $seatDBTotal + $seats;
+        $seatLeft = self::MAXSEATS - $seatDBTotal;
+
+        // Max of 10 seats can be booked as per requirements
+        if ($seatTotal > self::MAXSEATS) {
             return response()->json([
                 'success' => false,
-                'message' => 'Sorry, customer with id ' . $customer_id
-                . ' cannot be found'
-            ], 400);
-        }
-        if (!Showing::find($showing_id)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Sorry, Showing with id ' . $showing_id
-                . ' cannot be found'
+                'message' => 'Sorry, only ' . $seatLeft
+                . ' seats can be booked at this moment'
             ], 400);
         }
 
@@ -45,8 +44,9 @@ class BookingService
                                 ]);
 
         return response()->json([
-            'success' => true
-        ]);
+            'success' => true,
+            'message' => 'Seat have been booked'
+        ], 201);
     }
 
     /**

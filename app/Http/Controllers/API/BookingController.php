@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ShowingStoreRequest;
+use App\Http\Requests\BookingStoreRequest;
 use App\Http\Requests\ShowingDeleteRequest;
 use App\Showing;
 use App\Customer;
@@ -13,10 +13,10 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  App\Http\Requests\ShowingStoreRequest  $request
+     * @param  App\Http\Requests\BookingStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ShowingStoreRequest $request)
+    public function store(BookingStoreRequest $request)
     {
         //validate
         $validated = $request->validated();
@@ -28,11 +28,11 @@ class BookingController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  App\Http\Requests\ShowingStoreRequest  $request
+     * @param  App\Http\Requests\BookingStoreRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ShowingStoreRequest $request, $id)
+    public function update(BookingStoreRequest $request, $id)
     {
         //validate
         $validated = $request->validated();
@@ -44,7 +44,7 @@ class BookingController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  App\Http\Requests\ShowingStoreRequest $request
+     * @param  App\Http\Requests\BookingStoreRequest $request
      * @return \Illuminate\Http\Response
      */
     public function deleteBooking(ShowingDeleteRequest $request)

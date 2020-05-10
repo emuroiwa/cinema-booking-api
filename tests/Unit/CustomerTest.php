@@ -71,23 +71,4 @@ class CustomerTest extends TestCase
         );
         $response->assertStatus(200);
     }
-
-    // public function testLoggedUserCreatingNewCusomer()
-    // {
-    //     $this->actingAs(factory('App\User')->create());
-    //     $customer = factory('App\Customer')->make();
-    //     $this->post('/api/customer', $customer->toArray());
-    //     $this->assertEquals(1, \App\Customer::all()->count());
-    // }
-
-    /** @test */
-    // public function a_task_requires_a_title()
-    // {
-    //     $this->actingAs(factory('App\User')->create());
-
-    //     $task = factory('App\Customer')->make(['name' => null]);
-
-    //     $this->post('/api/customer/create', $task->toArray())
-    //         ->assertSessionHasErrors('name');
-    // }
 }
