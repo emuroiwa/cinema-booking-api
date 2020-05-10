@@ -18,10 +18,10 @@ class UserController extends Controller
     {
         //validate incoming request
         $this->validate($request, [
-        'name' => 'required|string',
-        'email' => 'required|email|unique:users',
-        'password' => 'required',
-    ]);
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users',
+            'password' => 'required',
+         ]);
         try {
             $user = User::create([
           'name' => $request->name,
@@ -44,6 +44,11 @@ class UserController extends Controller
      */
     public function login(Request $request)
     {
+        //validate incoming request
+        $this->validate($request, [
+            'email' => 'required|email|unique:users',
+            'password' => 'required',
+         ]);
         $credentials = $request->only(['email', 'password']);
         $token =  auth('api')->attempt($credentials);
 

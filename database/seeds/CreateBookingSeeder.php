@@ -20,7 +20,7 @@ class CreateBookingSeeder extends Seeder
                 [
                 'customer_id' => $customerIds[$index],
                 'showing_id' => $showingIds[$index],
-                'seats' => '1'
+                'seats' => 1
             ]
             );
         }

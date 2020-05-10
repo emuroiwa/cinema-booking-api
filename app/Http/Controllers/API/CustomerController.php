@@ -56,7 +56,7 @@ class CustomerController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Customer Details Updated'
-            ], 201);
+            ], 200);
         } catch (\ModelNotFoundException $ex) {
             // customer not found
             return response()->json([
@@ -83,10 +83,7 @@ class CustomerController extends Controller
             $customer = Customer::findOrFail($id);
             $customer->delete();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Customer Details Deleted'
-            ], 201);
+            return 204;
         } catch (\ModelNotFoundException $ex) {
             // customer not found
             return response()->json([

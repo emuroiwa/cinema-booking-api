@@ -83,10 +83,7 @@ class ShowingController extends Controller
             $showing = Showing::findOrFail($id);
             $showing->delete();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Movie Showing Details Delete'
-            ], 201);
+            return 204;
         } catch (\ModelNotFoundException $ex) {
             // Showing not found
             return response()->json([

@@ -46,7 +46,7 @@ class BookingService
         return response()->json([
             'success' => true,
             'message' => 'Seat have been booked'
-        ], 201);
+        ], 200);
     }
 
     /**

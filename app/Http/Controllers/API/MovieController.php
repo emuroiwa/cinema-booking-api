@@ -82,10 +82,7 @@ class MovieController extends Controller
             $movie = Movie::findOrFail($id);
             $movie->delete();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Movie Details Delete'
-            ], 200);
+            return 204;
         } catch (\ModelNotFoundException $ex) {
             // Movie not found
             return response()->json([
