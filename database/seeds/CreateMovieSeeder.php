@@ -12,8 +12,11 @@ class CreateMovieSeeder extends Seeder
      */
     public function run()
     {
-        $movie = Movie::create([
-            'movie_name' => 'Dark Night'
-        ]);
+        $arr = array('Dark Night','Dark Night Rasies', 'Inception');
+        foreach ($arr as &$value) {
+            Movie::create([
+            'movie_name' => $value
+            ]);
+        }
     }
 }

@@ -12,10 +12,17 @@ class CreateBookingSeeder extends Seeder
      */
     public function run()
     {
-        $booking = Booking::create([
-            'customer_id' => '1',
-            'showing_id' => '1',
-            'number_of_seats' => '1'
-        ]);
+        $customerIds = DB::table('customers')->pluck('id');
+        $showingIds = DB::table('showings')->pluck('id');
+
+        foreach ((range(0, 2)) as $index) {
+            DB::table('customer_showing')->insert(
+                [
+                'customer_id' => $customerIds[$index],
+                'showing_id' => $showingIds[$index],
+                'seats' => '1'
+            ]
+            );
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
+use Illuminate\Support\Str;
 
 class CreateUserSeeder extends Seeder
 {
@@ -12,10 +13,12 @@ class CreateUserSeeder extends Seeder
       */
     public function run()
     {
-        $user = User::create([
-            'name' => 'Test User',
-            'email' => 'user@test.co.uk',
-            'password' => bcrypt('12345678')
-        ]);
+        for ($i=0; $i < 3; $i++) {
+            User::create([
+                'name' => Str::random(8),
+                'email' => Str::random(8) .'@test.co.uk',
+                'password' => bcrypt('12345678')
+            ]);
+        }
     }
 }

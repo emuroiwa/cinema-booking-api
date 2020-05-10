@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Customer;
+use Illuminate\Support\Str;
 
 class CreateCustomerSeeder extends Seeder
 {
@@ -12,9 +13,11 @@ class CreateCustomerSeeder extends Seeder
      */
     public function run()
     {
-        $customer = Customer::create([
-            'name' => 'Test Customer',
-            'email' => 'customer@test.co.uk'
-        ]);
+        for ($i=0; $i < 3; $i++) {
+            $customer = Customer::create([
+                'name' => Str::random(8),
+                'email' => Str::random(12) .'@test.co.uk'
+            ]);
+        }
     }
 }

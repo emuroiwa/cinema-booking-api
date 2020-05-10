@@ -12,9 +12,11 @@ class CreateShowingSeeder extends Seeder
      */
     public function run()
     {
-        $showing = Showing::create([
-            'show_time' => '2020-12-01 12:12:22',
-            'movie_id' => '1'
-        ]);
+        foreach ((range(1, 3)) as $index) {
+            Showing::create([
+                'show_time' => date('Y-m-d H:i:s'),
+                'movie_id' => $index
+            ]);
+        }
     }
 }
