@@ -3,6 +3,8 @@
 A tutorial on how it was made is avaiable here
 http://www.ernestmuroiwa.com/laravel-restful-api/
 
+API Documentation
+
 Cinema Booking API app made with Laravel 7 and Mysql DB
 
 # Requirements
