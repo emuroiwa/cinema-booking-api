@@ -60,22 +60,22 @@ After complete setup process you have to configure you database credentials. Fir
 cp .env.example .env
 ```
 
+Generate JWT secret:
+
+```
+php artisan jwt:secret
+```
+
 To generate key please run this:
 
 ```
 php artisan key:generate
 ```
 
-Now open `.env` file and write database informations. Then run migrate from you terminal
+Now open `.env` file and write database informations. Then run migrate and seed command from you terminal
 
 ```shell
-php artisan migrate
-```
-
-Now run the DB seeder
-
-```shell
-php artisan db:seed --class=DatabaseSeeder
+php artisan migrate:fresh --seed
 ```
 
 # Running the project

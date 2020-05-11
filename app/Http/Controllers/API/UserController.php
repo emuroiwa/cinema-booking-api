@@ -46,7 +46,7 @@ class UserController extends Controller
     {
         //validate incoming request
         $this->validate($request, [
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email',
             'password' => 'required',
          ]);
         $credentials = $request->only(['email', 'password']);

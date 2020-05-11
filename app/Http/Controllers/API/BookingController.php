@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingStoreRequest;
+use App\Http\Requests\BookingUpdateRequest;
 use App\Http\Requests\ShowingDeleteRequest;
 use App\Showing;
 use App\Customer;
@@ -28,11 +29,11 @@ class BookingController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  App\Http\Requests\BookingStoreRequest  $request
+     * @param  App\Http\Requests\BookingUpdateRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(BookingStoreRequest $request, $id)
+    public function update(BookingUpdateRequest $request, $id)
     {
         //validate
         $validated = $request->validated();
@@ -44,7 +45,7 @@ class BookingController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  App\Http\Requests\BookingStoreRequest $request
+     * @param  App\Http\Requests\ShowingDeleteRequest $request
      * @return \Illuminate\Http\Response
      */
     public function deleteBooking(ShowingDeleteRequest $request)

@@ -18,15 +18,20 @@ Route::post('register', 'API\UserController@register');
 Route::post('login', 'API\UserController@login');
 
 Route::group(['middleware' => 'jwt.auth'], function () {
-    Route::apiResource('customer', 'API\CustomerController');
-    Route::apiResource('movie', 'API\MovieController');
-    Route::apiResource('showing', 'API\ShowingController');
-    Route::apiResource('booking', 'API\BookingController');
+    //customer endpoints
+    Route::post('customer', 'API\CustomerController@store');
+    Route::put('customer', 'API\CustomerController@update');
+    Route::delete('customer', 'API\CustomerController@delete');
+    //movie endpoints
+    Route::post('movie', 'API\MovieController@store');
+    Route::put('movie', 'API\MovieController@update');
+    Route::delete('movie', 'API\MovieController@delete');
+    //showing endpoints
+    Route::post('showing', 'API\ShowingController@store');
+    Route::put('showing', 'API\ShowingController@update');
+    Route::delete('showing', 'API\ShowingController@delete');
+    //showing endpoints
+    Route::post('booking', 'API\BookingController@store');
+    Route::put('booking', 'API\BookingController@update');
     Route::delete('booking', 'API\BookingController@deleteBooking');
-});
-
-Route::fallback(function () {
-    return response()->json([
-        'message' => 'Page Not Found. If error persists, contact info@clearwaste.com'
-    ], 404);
 });
