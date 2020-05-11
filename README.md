@@ -89,3 +89,11 @@ php artisan serve
 ```
 
 and access the website on your local website with this url localhost:8000.
+
+# Running PHPUnit tests
+
+Run the following on your on your terminal:
+
+```
+composer test
+```
