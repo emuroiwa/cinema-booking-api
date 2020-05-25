@@ -4,10 +4,21 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerStoreRequest;
+use App\Repositories\Repository;
 use App\Customer;
 
 class CustomerController extends Controller
 {
+    private $model;
+    /**
+     * CustomerController constructor.
+     */
+    public function __construct(Customer $customer)
+    {
+        // set the model
+        $this->model = new Repository($customer);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -19,16 +30,9 @@ class CustomerController extends Controller
         try {
             //validate
             $validated = $request->validated();
+            // create record and pass in only fields that are fillable
+            return $this->model->create($request->only($this->model->getModel()->fillable));
 
-            Customer::create([
-                'name' => $request['name'],
-                'email' => $request['email'],
-            ]);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Customer Details Added'
-            ], 201);
         } catch (\Exception $ex) {
             return response()->json([
                 'success' => false,
@@ -50,13 +54,10 @@ class CustomerController extends Controller
             //validate
             $validated = $request->validated();
 
-            $customer = Customer::findOrFail($id);
-            $customer->update($request->all());
+            // update model and only pass in the fillable fields
+            $this->model->update($request->only($this->model->getModel()->fillable), $id);
+            return $this->model->find($id);
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Customer Details Updated'
-            ], 200);
         } catch (\ModelNotFoundException $ex) {
             // customer not found
             return response()->json([
@@ -80,8 +81,7 @@ class CustomerController extends Controller
     public function destroy($id)
     {
         try {
-            $customer = Customer::findOrFail($id);
-            $customer->delete();
+            return $this->model->delete($id);
 
             return 204;
         } catch (\ModelNotFoundException $ex) {

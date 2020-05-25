@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\CinemaServices\BookingService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingStoreRequest;
 use App\Http\Requests\BookingUpdateRequest;
@@ -11,19 +12,23 @@ use App\Customer;
 
 class BookingController extends Controller
 {
+
+
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  App\Http\Requests\BookingStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(BookingStoreRequest $request)
     {
         //validate
         $validated = $request->validated();
 
-        $booking = resolve('App\CinemaServices\BookingService');
-        return $booking->booking($request['customer_id'], $request['showing_id'], $request['number_of_seats']);
+        //$booking = resolve('App\CinemaServices\BookingService');
+        return app()->make(BookingService)->booking($request['customer_id'], $request['showing_id'], $request['number_of_seats']);
     }
 
     /**
@@ -38,8 +43,8 @@ class BookingController extends Controller
         //validate
         $validated = $request->validated();
 
-        $booking = resolve('App\CinemaServices\BookingService');
-        return $booking->booking($id, $request['showing_id'], $request['number_of_seats']);
+        //$booking = resolve('App\CinemaServices\BookingService');
+        return app()->make(BookingService)->booking($id, $request['showing_id'], $request['number_of_seats']);
     }
 
     /**
@@ -52,7 +57,7 @@ class BookingController extends Controller
     {
         $validated = $request->validated();
 
-        $booking = resolve('App\CinemaServices\BookingService');
-        return $booking->deleteBooking($request['customer_id'], $request['showing_id']);
+        //$booking = resolve('App\CinemaServices\BookingService');
+        return app()->make(BookingService)->deleteBooking($request['customer_id'], $request['showing_id']);
     }
 }

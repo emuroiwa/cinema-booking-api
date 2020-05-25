@@ -19,9 +19,8 @@ Route::post('login', 'API\UserController@login');
 
 Route::group(['middleware' => 'jwt.auth'], function () {
     //customer endpoints
-    Route::post('customer', 'API\CustomerController@store');
-    Route::put('customer', 'API\CustomerController@update');
-    Route::delete('customer', 'API\CustomerController@delete');
+    Route::apiResource('customer', 'API\CustomerController');
+   
     //movie endpoints
     Route::post('movie', 'API\MovieController@store');
     Route::put('movie', 'API\MovieController@update');

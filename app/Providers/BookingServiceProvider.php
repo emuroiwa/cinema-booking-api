@@ -24,7 +24,7 @@ class BookingServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        app()->singleton(BookingService::class, function(){
+        app()->singleton(BookingService::class, function () {
             return new BookingService;
         });
     }

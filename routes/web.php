@@ -14,9 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    print_r(app()->make('redis'));
 });
 
 Auth::routes();
 
+Route::resource('test', 'PaymentController');
 Route::get('/home', 'HomeController@index')->name('home');
